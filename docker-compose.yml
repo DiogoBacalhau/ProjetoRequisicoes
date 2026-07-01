@@ -1,0 +1,30 @@
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: projeto_requisicoes_recursos
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend-app:
+    image: serversideup/php:8.3-fpm
+    container_name: projeto_requisicoes_backend
+    restart: always
+    tty: true
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/var/www/html
+    working_dir: /var/www/html
+    depends_on:
+      - mysql-db
+
+volumes:
+  mysql_data:
