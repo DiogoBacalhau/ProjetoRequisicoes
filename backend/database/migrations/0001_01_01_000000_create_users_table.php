@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            //ROles disponiveis na app -> COlaborador como default por segurança caso algo falhe 
+            $table->enum('role', ['admin', 'colaborador'])->default('colaborador');
             $table->rememberToken();
             $table->timestamps();
         });
