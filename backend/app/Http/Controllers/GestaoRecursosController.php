@@ -24,11 +24,11 @@ class GestaoRecursosController extends Controller
      */
     public function store(Request $request)
     {
-        //Validação dos dados recebidos
+        //Valida os dados recebidos
         $dadosValidados = $request->validate([
-            'nome' => 'required | string | max:255',
-            'tipo' => 'required | in:espaco, equipamentos, viaturas, outros ativos organizacionais',
-            'descricao' => 'nullable | string',
+            'nome' => 'required|string|max:255',
+            'tipo' => 'required|in:espaco,equipamentos,viaturas,outros ativos organizacionais',
+            'descricao' => 'nullable|string',
         ]);
 
         //Como está definido na tabela default(true) não precisamos de mandar 'status'
@@ -64,10 +64,10 @@ class GestaoRecursosController extends Controller
 
         //Validamos apenas o que vier na requisição -> no endpoint uso PATCH
         $dadosValidados = $request->validate([
-            'nome'      => 'sometimes | string | max:255',
-            'tipo'      => 'sometimes | in:espaco, equipamentos, viaturas, outros ativos organizacionais',
-            'descricao' => 'nullable | string',
-            'status'    => 'sometimes | boolean' //sometimes -> só veririca o que está no campo se for pedido, se não for pedido ignora
+            'nome'      => 'sometimes|string|max:255',
+            'tipo'      => 'sometimes|in:espaco,equipamentos,viaturas,outros ativos organizacionais',
+            'descricao' => 'nullable|string',
+            'status'    => 'sometimes|boolean' //sometimes -> só veririca o que está no campo se for pedido, se não for pedido ignora
         ]);
 
         $recurso->update($dadosValidados);
