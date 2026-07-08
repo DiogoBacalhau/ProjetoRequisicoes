@@ -3,15 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Requisicao;
 
 class RequisicaoController extends Controller
 {
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function index()
+    {
+        $requisicoes = Requisicao::with(['recurso', 'user'])->get();
+        return response()->json($requisicoes, 200);
+    }
+
     public function store(Request $request)
     {
-        // Validação dos dados recebidos
         $dadosValidados = $request->validate([
             'user_id'     => 'required|exists:users,id',
             'recurso_id'  => 'required|exists:recursos,id',
@@ -20,10 +23,41 @@ class RequisicaoController extends Controller
             'observacoes' => 'nullable|string',
         ]);
 
-        // Cria a requisição (o 'estado' assume automaticamente 'pendente' via BD)
         $requisicao = Requisicao::create($dadosValidados);
 
-        // Devolve a requisição criada com o status 201 (Created)
         return response()->json($requisicao, 201);
+    }
+
+    public function cancelar($id)
+    {
+        $requisicao = Requisicao::find($id);
+
+        if (!$requisicao) {
+            return response()->json(['message' => 'Requisição não encontrada'], 404);
+        }
+
+        if (in_array($requisicao->estado, ['rejeitada', 'concluida', 'cancelada'])) {
+            return response()->json(['message' => 'Esta requisição já não pode ser cancelada.'], 400);
+        }
+
+        $requisicao->update(['estado' => 'cancelada']);
+        return response()->json($requisicao, 200);
+    }
+
+    public function analisar(Request $request, $id)
+    {
+        $requisicao = Requisicao::find($id);
+
+        if (!$requisicao) {
+            return response()->json(['message' => 'Requisição não encontrada'], 404);
+        }
+
+        $dadosValidados = $request->validate([
+            'estado'      => 'required|in:aprovada,rejeitada',
+            'observacoes' => 'nullable|string'
+        ]);
+
+        $requisicao->update($dadosValidados);
+        return response()->json($requisicao, 200);
     }
 }

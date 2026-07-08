@@ -9,10 +9,8 @@ class Requisicao extends Model
 {
     use HasFactory;
 
-    // Força o nome correto da tabela em português
     protected $table = 'requisicoes';
 
-    // Atributos autorizados para preenchimento em massa
     protected $fillable = [
         'user_id',
         'recurso_id',
@@ -22,9 +20,18 @@ class Requisicao extends Model
         'observacoes',
     ];
 
-    // Garante que as datas vêm como objetos datetime prontos a usar no PHP
     protected $casts = [
         'data_inicio' => 'datetime',
         'data_fim' => 'datetime',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function recurso()
+    {
+        return $this->belongsTo(Recurso::class, 'recurso_id');
+    }
 }
