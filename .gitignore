@@ -1,1 +1,14 @@
 .env
+
+# Angular cache e builds
+.angular/
+dist/
+tmp/
+out-tsc/
+bazel-out/
+
+# Dependências
+node_modules/
+
+# Ficheiros de sistema
+.DS_Store
