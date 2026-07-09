@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GestaoRecursosController;
+use App\Http\Controllers\GestaoRequisicaoController;
 
 
 //Padrão do Laravel
@@ -27,3 +28,8 @@ Route::put('/recursos/{id}', [GestaoRecursosController::class, 'update']);
 
 //Remover um recurso
 Route::delete('/recursos/{id}', [GestaoRecursosController::class, 'destroy']);
+
+Route::get('/requisicoes', [GestaoRequisicaoController::class, 'index']);
+Route::post('/requisicoes', [GestaoRequisicaoController::class, 'store']);
+Route::patch('/requisicoes/{id}/cancelar', [GestaoRequisicaoController::class, 'cancelar']);
+Route::patch('/requisicoes/{id}/analisar', [GestaoRequisicaoController::class, 'analisar']);

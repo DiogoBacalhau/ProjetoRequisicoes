@@ -1,0 +1,70 @@
+.container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+    font-family: system-ui, -apple-system, sans-serif;
+  }
+  
+  .d-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .btn-primary {
+    background-color: #0d6efd;
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+  }
+  
+  .btn-primary:hover {
+    background-color: #0b5ed7;
+  }
+  
+  .card {
+    background: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    overflow: hidden;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+  
+  .table th {
+    background-color: #212529;
+    color: white;
+    padding: 1rem;
+    font-weight: 600;
+  }
+  
+  .table td {
+    padding: 1rem;
+    border-bottom: 1px solid #dee2e6;
+  }
+  
+  .table-hover tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.025);
+  }
+  
+  /* Badges para os Estados */
+  .badge {
+    display: inline-block;
+    padding: 0.35rem 0.65rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border-radius: 0.25rem;
+    text-transform: uppercase;
+  }
+  
+  .bg-warning { background-color: #ffc107; color: #212529; }
+  .bg-success { background-color: #198754; color: white; }
+  .bg-danger { background-color: #dc3545; color: white; }
+  .bg-secondary { background-color: #6c757d; color: white; }

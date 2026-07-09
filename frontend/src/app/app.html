@@ -1,1 +1,24 @@
-<router-outlet></router-outlet>
+<nav class="navbar">
+    <div class="nav-container">
+      <a routerLink="/" class="nav-logo">Gestão de Requisições</a>
+      
+      <div class="nav-links">
+        <a routerLink="/recursos" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          Lista de Recursos
+        </a>
+        <a routerLink="/recursos/novo" routerLinkActive="active">
+          Novo Recurso
+        </a>
+        <a routerLink="/requisicoes" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          Histórico de Requisições
+        </a>
+        <a routerLink="/requisicoes/novo" routerLinkActive="active">
+          Requisitar Recurso
+        </a>
+      </div>
+    </div>
+  </nav>
+  
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>

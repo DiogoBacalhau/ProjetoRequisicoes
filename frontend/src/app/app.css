@@ -1,0 +1,54 @@
+/* Reset Básico global caso não tenhas */
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, sans-serif;
+  background-color: #f8f9fa;
+}
+
+/* Estilo da Navbar */
+.navbar {
+  background-color: #1e293b; /* Azul escuro moderno */
+  padding: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-logo {
+  color: white;
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.nav-links a {
+  color: #cbd5e1;
+  text-decoration: none;
+  margin-left: 1.5rem;
+  font-weight: 500;
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.25rem;
+  transition: all 0.2s;
+}
+
+.nav-links a:hover {
+  color: white;
+  background-color: rgba(255,255,255,0.1);
+}
+
+/* Classe automática do Angular para o link da página atual */
+.nav-links a.active {
+  color: white;
+  background-color: #3b82f6; /* Azul destaque */
+}
+
+.main-content {
+  min-height: calc(100vh - 70px);
+}
