@@ -56,6 +56,11 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
+  getRole(): string | null {
+    const utilizador = this.currentUser();
+    return utilizador ? utilizador.role : null;
+  }
+
   private carregarSessao(): void {
     const token = this.getToken();
     const userJson = localStorage.getItem('user');

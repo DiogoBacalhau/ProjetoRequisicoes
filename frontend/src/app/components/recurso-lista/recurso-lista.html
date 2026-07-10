@@ -1,50 +1,62 @@
-<div style="padding: 20px; font-family: sans-serif;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-      <h2>Gestão de Recursos</h2>
-      <a routerLink="/recursos/novo" style="background-color: #28a745; color: white; padding: 10px 15px; text-decoration: none; border-radius: 4px; font-weight: bold;">
-        + Adicionar Recurso
-      </a>
-    </div>
-  
-    <div *ngIf="loading()" style="background-color: #e2e3e5; color: #383d41; padding: 15px; border-radius: 4px; font-weight: bold;">
-      A carregar recursos do servidor...
-    </div>
+<div class="page-wrapper">
+  <div class="page-header">
+    <h2>Gestão de Recursos</h2>
+    <a routerLink="/recursos/novo" class="btn btn-success">
+      Adicionar Recurso
+    </a>
+  </div>
 
-    <div *ngIf="!loading() && recursos().length === 0" style="background-color: #f8d7da; color: #721c24; padding: 15px; border-radius: 4px;">
-      Nenhum recurso encontrado na base de dados.
+  @if (loading()) {
+    <div class="alert alert-info">A carregar recursos do servidor...</div>
+  }
+
+  @if (!loading() && recursos().length === 0) {
+    <div class="alert alert-danger">Nenhum recurso encontrado na base de dados.</div>
+  }
+
+  @if (!loading() && recursos().length > 0) {
+    <div class="custom-card">
+      <div class="table-container">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nome</th>
+              <th>Tipo</th>
+              <th>Descrição</th>
+              <th>Status</th>
+              <th class="text-center">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (recurso of recursos(); track recurso.id) {
+              <tr>
+                <td><strong>#{{ recurso.id }}</strong></td>
+                <td class="font-bold">{{ recurso.nome }}</td>
+                <td>
+                  <span class="type-tag">{{ recurso.tipo }}</span>
+                </td>
+                <td>
+                  <span class="text-muted">{{ recurso.descricao || 'Sem descrição' }}</span>
+                </td>
+                <td>
+                  <span class="status-indicator {{ recurso.status ? 'status-ativo' : 'status-inativo' }}">
+                    {{ recurso.status ? 'Ativo' : 'Inativo' }}
+                  </span>
+                </td>
+                <td class="text-center">
+                  <a [routerLink]="['/recursos/editar', recurso.id]" class="btn btn-action btn-edit">
+                    Editar
+                  </a>
+                  <button (click)="eliminarRecurso(recurso.id)" class="btn btn-action btn-delete">
+                    Eliminar
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
     </div>
-  
-    <table *ngIf="!loading() && recursos().length > 0" style="width: 100%; border-collapse: collapse; margin-top: 10px;">
-      <thead>
-        <tr style="background-color: #343a40; color: white; text-align: left;">
-          <th style="padding: 12px; border: 1px solid #dee2e6;">ID</th>
-          <th style="padding: 12px; border: 1px solid #dee2e6;">Nome</th>
-          <th style="padding: 12px; border: 1px solid #dee2e6;">Tipo</th>
-          <th style="padding: 12px; border: 1px solid #dee2e6;">Descrição</th>
-          <th style="padding: 12px; border: 1px solid #dee2e6;">Status</th>
-          <th style="padding: 12px; border: 1px solid #dee2e6; text-align: center;">Ações</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let recurso of recursos()" style="border-bottom: 1px solid #dee2e6;">
-          <td style="padding: 12px; border: 1px solid #dee2e6;">{{ recurso.id }}</td>
-          <td style="padding: 12px; border: 1px solid #dee2e6; font-weight: bold;">{{ recurso.nome }}</td>
-          <td style="padding: 12px; border: 1px solid #dee2e6;"><span style="background-color: #e2e3e5; padding: 4px 8px; border-radius: 4px; text-transform: capitalize;">{{ recurso.tipo }}</span></td>
-          <td style="padding: 12px; border: 1px solid #dee2e6; color: #6c757d;">{{ recurso.descricao || 'Sem descrição' }}</td>
-          <td style="padding: 12px; border: 1px solid #dee2e6;">
-            <span [style.color]="recurso.status ? '#28a745' : '#dc3545'" style="font-weight: bold;">
-              {{ recurso.status ? 'Ativo' : 'Inativo' }}
-            </span>
-          </td>
-          <td style="padding: 12px; border: 1px solid #dee2e6; text-align: center;">
-            <a [routerLink]="['/recursos/editar', recurso.id]" style="background-color: #007bff; color: white; padding: 6px 12px; text-decoration: none; border-radius: 4px; margin-right: 5px; font-size: 14px;">
-              Editar
-            </a>
-            <button (click)="eliminarRecurso(recurso.id)" style="background-color: #dc3545; color: white; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px;">
-              Eliminar
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  }
 </div>

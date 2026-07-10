@@ -16,6 +16,7 @@
       <a routerLink="/requisicoes" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
         Histórico de Requisições
       </a>
+      
       <a *ngIf="authService.currentUser()?.role === 'admin'" routerLink="/registo" routerLinkActive="active">
         Novo Utilizador
       </a>

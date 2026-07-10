@@ -20,7 +20,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/requisicoes', [GestaoRequisicaoController::class, 'index']);
     Route::post('/requisicoes', [GestaoRequisicaoController::class, 'store']);
     Route::patch('/requisicoes/{id}/cancelar', [GestaoRequisicaoController::class, 'cancelar']);
-    Route::patch('/requisicoes/{id}/analisar', [GestaoRequisicaoController::class, 'analisar']);
 
     Route::middleware('admin.verificar')->group(function () {
         Route::post('/register', [AuthController::class, 'register']);
@@ -28,5 +27,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::patch('/recursos/{id}', [GestaoRecursosController::class, 'update']);
         Route::put('/recursos/{id}', [GestaoRecursosController::class, 'update']);
         Route::delete('/recursos/{id}', [GestaoRecursosController::class, 'destroy']);
+        Route::patch('/requisicoes/{id}/analisar', [GestaoRequisicaoController::class, 'analisar']);
+
     });
 });

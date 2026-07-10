@@ -1,53 +1,70 @@
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2>Histórico de Requisições</h2>
-      <a routerLink="/requisicoes/novo" class="btn btn-primary">
-        Nova Requisição
-      </a>
-    </div>
-  
-    @if (erroMensagem()) {
-      <div class="alert alert-danger">{{ erroMensagem() }}</div>
-    }
-  
-    @if (requisicoes().length === 0) {
-      <div class="alert alert-info">Nenhuma requisição efetuada até ao momento.</div>
-    } @else {
-      <div class="card shadow-sm">
-        <div class="table-responsive">
-          <table class="table table-hover align-middle mb-0">
-            <thead class="table-dark">
-              <tr>
-                <th>ID</th>
-                <th>Recurso</th>
-                <th>Utilizador</th>
-                <th>Data Início</th>
-                <th>Data Fim</th>
-                <th>Estado</th>
-                <th>Observações</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (req of requisicoes(); track req.id) {
-                <tr>
-                  <td><strong>#{{ req.id }}</strong></td>
-                  <td>{{ req.recurso?.nome || 'Recurso Removido' }}</td>
-                  <td>{{ req.user?.name || 'User #' + req.user_id }}</td>
-                  <td>{{ req.data_inicio | date:'dd/MM/yyyy HH:mm' }}</td>
-                  <td>{{ req.data_fim | date:'dd/MM/yyyy HH:mm' }}</td>
-                  <td>
-                    <span class="badge {{ getBadgeClass(req.estado) }}">
-                      {{ req.estado | uppercase }}
-                    </span>
-                  </td>
-                  <td>
-                    <small class="text-muted">{{ req.observacoes || '-' }}</small>
-                  </td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        </div>
-      </div>
-    }
+<div class="page-wrapper">
+  <div class="page-header">
+    <h2>Histórico de Requisições</h2>
+    <a routerLink="/requisicoes/novo" class="btn btn-success">
+      Requisição de recurso
+    </a>
   </div>
+
+  @if (erroMensagem()) {
+    <div class="alert alert-danger">{{ erroMensagem() }}</div>
+  }
+
+  @if (requisicoes().length === 0) {
+    <div class="alert alert-info">Nenhuma requisição efetuada até ao momento.</div>
+  } @else {
+    <div class="custom-card">
+      <div class="table-container">
+        <table class="custom-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Recurso</th>
+              <th>Utilizador</th>
+              <th>Data Início</th>
+              <th>Data Fim</th>
+              <th>Estado</th>
+              <th>Observações</th>
+              <th class="text-center">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (req of requisicoes(); track req.id) {
+              <tr>
+                <td><strong>#{{ req.id }}</strong></td>
+                <td>{{ req.recurso?.nome || 'Recurso Removido' }}</td>
+                <td>{{ req.user?.name || 'User #' + req.user_id }}</td>
+                <td>{{ req.data_inicio | date:'dd/MM/yyyy HH:mm':'UTC' }}</td>
+                <td>{{ req.data_fim | date:'dd/MM/yyyy HH:mm':'UTC' }}</td>
+                <td>
+                  <span class="badge {{ getBadgeClass(req.estado) }}">
+                    {{ req.estado }}
+                  </span>
+                </td>
+                <td>
+                  <span class="text-muted">{{ req.observacoes || '-' }}</span>
+                </td>
+                
+                <td class="text-center">
+                  <div class="admin-actions">
+                    
+                    @if (isAdmin() && req.estado?.toLowerCase() === 'pendente') {
+                      <button (click)="analisarEstado(req.id, 'aprovada')" class="btn-mini btn-approve">Aprovar</button>
+                      <button (click)="analisarEstado(req.id, 'rejeitada')" class="btn-mini btn-reject">Rejeitar</button>
+                    }
+                    
+                    @if (req.user_id === getUserIdLogado() && 
+                         (req.estado?.toLowerCase() === 'pendente' || req.estado?.toLowerCase() === 'aprovada')) {
+                      <button (click)="analisarEstado(req.id, 'cancelada')" class="btn-mini btn-cancel">Cancelar</button>
+                    }
+
+                  </div>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
+  }
+</div>

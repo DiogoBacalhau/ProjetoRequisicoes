@@ -2,8 +2,15 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
-import { RequisicaoService, Requisicao } from '../../services/requisicao';
+import { RequisicaoService } from '../../services/requisicao';
 import { RecursoService, Recurso } from '../../services/recurso';
+
+interface DadosFormRequisicao {
+  recurso_id: number;
+  data_inicio: string;
+  data_fim: string;
+  observacoes: string;
+}
 
 @Component({
   selector: 'app-requisicao-form',
@@ -15,8 +22,7 @@ export class RequisicaoForm implements OnInit {
   //Sinal usado para mostrar os recursos que estão disponíveis no momento
   recursosDisponiveis = signal<Recurso[]>([]);
   
-  requisicao: Requisicao = {
-    user_id: 1, //Valor simulado enquanto não há sistema de auth
+  requisicao: DadosFormRequisicao = {
     recurso_id: 0,
     data_inicio: '',
     data_fim: '',
@@ -56,7 +62,7 @@ export class RequisicaoForm implements OnInit {
       return;
     }
 
-    this.requisicaoService.createRequisicao(this.requisicao).subscribe({
+    this.requisicaoService.createRequisicao(this.requisicao as any).subscribe({
       next: () => {
         this.router.navigate(['/requisicoes']);
       },
