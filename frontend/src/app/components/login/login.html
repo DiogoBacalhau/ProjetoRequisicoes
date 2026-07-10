@@ -1,0 +1,56 @@
+<div class="container-fluid login-page-wrapper">
+  <div class="card shadow-sm">
+    <h3 class="text-center mb-4 font-weight-bold">Login</h3>
+
+    @if (erroMensagem()) {
+      <div class="alert alert-danger text-start mb-3" role="alert">
+        {{ erroMensagem() }}
+      </div>
+    }
+
+    <form (ngSubmit)="submeterLogin()" #loginForm="ngForm" novalidate>
+      
+      <div class="mb-3">
+        <label class="form-label">E-mail</label>
+        <input 
+          type="email" 
+          class="form-control" 
+          [(ngModel)]="credenciais.email" 
+          name="email" 
+          required 
+          pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+          #emailInput="ngModel"
+          placeholder="Ex: exemplo@gmail.com"
+        />
+        @if (emailInput.invalid && emailInput.touched) {
+          <small class="text-danger d-block mt-1">Introduz um e-mail válido (ex: .com ou .pt).</small>
+        }
+      </div>
+
+      <div class="d-flex flex-column align-items-start mb-5 w-100">
+        <label for="password" class="form-label font-weight-bold text-uppercase mb-2">Password</label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          class="form-control w-100" 
+          [(ngModel)]="credenciais.password" 
+          placeholder="password" 
+          required
+          minlength="6"
+          #passwordInput="ngModel">
+
+        @if (passwordInput.invalid && passwordInput.touched) {
+          <small class="text-danger mt-1">A password deve ter pelo menos 6 caracteres.</small>
+        }
+      </div>
+
+      <button 
+        type="submit" 
+        class="btn btn-dark w-100 font-weight-bold py-2 text-center" 
+        [disabled]="loginForm.invalid || aCarregar()">
+        {{ aCarregar() ? 'A entrar...' : 'Entrar' }}
+      </button>
+    </form>
+  </div>
+</div>

@@ -1,0 +1,93 @@
+<div class="registo-page-wrapper">
+    <div class="card">
+      <h2>Novo Utilizador</h2>
+      
+      <form (ngSubmit)="submeterRegisto()" #registoForm="ngForm" novalidate>
+        
+        <div class="mb-3">
+          <label class="form-label">Nome</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            [(ngModel)]="dados.name" 
+            name="name" 
+            required 
+            minlength="3"
+            #nameInput="ngModel"
+            placeholder="Ex: Utilizador Exemplo"
+          />
+          @if (nameInput.invalid && nameInput.touched) {
+            <small class="text-danger d-block mt-1">O nome deve ter pelo menos 3 caracteres.</small>
+          }
+        </div>
+  
+        <div class="mb-3">
+            <label class="form-label">E-mail</label>
+            <input 
+              type="email" 
+              class="form-control" 
+              [(ngModel)]="dados.email" 
+              name="email" 
+              required 
+              pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+              #emailInput="ngModel"
+              placeholder="Ex: exemplo@gmail.com"
+            />
+            @if (emailInput.invalid && emailInput.touched) {
+              <small class="text-danger d-block mt-1">Introduz um e-mail válido (ex: .com ou .pt).</small>
+            }
+          </div>
+  
+        <div class="mb-3">
+          <label class="form-label">Password (Mínimo 6 caracteres)</label>
+          <input 
+            type="password" 
+            class="form-control" 
+            [(ngModel)]="dados.password" 
+            name="password" 
+            required 
+            minlength="6"
+            #passwordInput="ngModel"
+            placeholder="******"
+          />
+          @if (passwordInput.invalid && passwordInput.touched) {
+            <small class="text-danger d-block mt-1">A password tem de ter no mínimo 6 caracteres.</small>
+          }
+        </div>
+  
+        <div class="mb-3">
+          <label class="form-label">Cargo</label>
+          <select 
+            class="form-select" 
+            [(ngModel)]="dados.role" 
+            name="role" 
+            required
+            #roleInput="ngModel"
+          >
+            <option value="colaborador">Colaborador</option>
+            <option value="admin">Administrador</option>
+          </select>
+          @if (roleInput.invalid && roleInput.touched) {
+            <small class="text-danger d-block mt-1">É obrigatório escolher um cargo.</small>
+          }
+        </div>
+  
+        @if (mensagemErro) {
+          <div class="alert-danger">
+            {{ mensagemErro }}
+          </div>
+        }
+
+        @if (mensagemSucesso) {
+          <div class="alert-success">
+            {{ mensagemSucesso }}
+          </div>
+        }
+  
+        <button type="submit" class="btn-dark" [disabled]="registoForm.invalid">
+          Criar Conta
+        </button>
+  
+      </form>
+    </div>
+</div>
