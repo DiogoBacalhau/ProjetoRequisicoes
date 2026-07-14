@@ -23,25 +23,33 @@ export class RequisicaoService {
   constructor(private http: HttpClient) {}
 
   getRequisicoes(): Observable<Requisicao[]> {
-    return this.http.get<Requisicao[]>(this.apiUrl);
+    return this.http.get<Requisicao[]>(this.apiUrl, { 
+      withCredentials: true 
+    });
   }
 
   createRequisicao(requisicao: Partial<Requisicao>): Observable<Requisicao> {
-    return this.http.post<Requisicao>(this.apiUrl, requisicao);
+    return this.http.post<Requisicao>(this.apiUrl, requisicao, { 
+      withCredentials: true 
+    });
   }
 
-  cancelarRequisicao(id: number): Observable<Requisicao> {
-    return this.http.patch<Requisicao>(
+  cancelarRequisicao(id: number): Observable<any> {
+    return this.http.patch<any>(
       `${this.apiUrl}/${id}/cancelar`, 
-      {}, 
-      { withCredentials: true }
+      {},
+      { 
+        withCredentials: true 
+      }
     );
   }
 
   atualizarEstado(id: number, estado: string): Observable<Requisicao> {
     return this.http.patch<Requisicao>(
       `${this.apiUrl}/${id}/analisar`, 
-      { estado },
+      { 
+        estado 
+      },
       { 
         withCredentials: true 
       }

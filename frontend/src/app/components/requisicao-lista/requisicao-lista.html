@@ -1,6 +1,6 @@
 <div class="page-wrapper">
   <div class="page-header">
-    <h2>Histórico de Requisições</h2>
+    <h2>Lista de Requisições</h2>
     <a routerLink="/requisicoes/novo" class="btn btn-success">
       Requisição de recurso
     </a>
@@ -34,12 +34,19 @@
                 <td><strong>#{{ req.id }}</strong></td>
                 <td>{{ req.recurso?.nome || 'Recurso Removido' }}</td>
                 <td>{{ req.user?.name || 'User #' + req.user_id }}</td>
-                <td>{{ req.data_inicio | date:'dd/MM/yyyy HH:mm':'UTC' }}</td>
-                <td>{{ req.data_fim | date:'dd/MM/yyyy HH:mm':'UTC' }}</td>
-                <td>
-                  <span class="badge {{ getBadgeClass(req.estado) }}">
-                    {{ req.estado }}
-                  </span>
+                <td>{{ req.data_inicio | date:'dd/MM/yyyy HH:mm' }}</td>
+                <td>{{ req.data_fim | date:'dd/MM/yyyy HH:mm' }}</td>
+                <td class="text-center">
+                  @if (isAdmin() && req.estado?.toLowerCase() === 'aprovada') {
+                    <select #estadoSelect (change)="analisarEstado(req.id, estadoSelect.value)" class="badge-select">
+                      <option value="aprovada" selected>APROVADA</option>
+                      <option value="concluida">CONCLUÍDA</option>
+                    </select>
+                  } @else {
+                    <span class="badge {{ getBadgeClass(req.estado) }}">
+                      {{ req.estado | uppercase }}
+                    </span>
+                  }
                 </td>
                 <td>
                   <span class="text-muted">{{ req.observacoes || '-' }}</span>
@@ -47,17 +54,14 @@
                 
                 <td class="text-center">
                   <div class="admin-actions">
-                    
                     @if (isAdmin() && req.estado?.toLowerCase() === 'pendente') {
                       <button (click)="analisarEstado(req.id, 'aprovada')" class="btn-mini btn-approve">Aprovar</button>
                       <button (click)="analisarEstado(req.id, 'rejeitada')" class="btn-mini btn-reject">Rejeitar</button>
                     }
                     
-                    @if (req.user_id === getUserIdLogado() && 
-                         (req.estado?.toLowerCase() === 'pendente' || req.estado?.toLowerCase() === 'aprovada')) {
+                    @if (req.user_id === getUserIdLogado() && (req.estado?.toLowerCase() === 'pendente' || req.estado?.toLowerCase() === 'aprovada')) {
                       <button (click)="analisarEstado(req.id, 'cancelada')" class="btn-mini btn-cancel">Cancelar</button>
                     }
-
                   </div>
                 </td>
               </tr>

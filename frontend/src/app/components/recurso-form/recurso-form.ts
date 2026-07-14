@@ -9,7 +9,6 @@ import { RecursoService, Recurso } from '../../services/recurso';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './recurso-form.html',
-  styleUrls: ['./recurso-form.css']
 })
 export class RecursoForm implements OnInit {
   recurso: Recurso = {

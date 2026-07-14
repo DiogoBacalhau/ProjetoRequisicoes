@@ -1,20 +1,16 @@
 <div class="page-wrapper">
   <div class="page-header">
-    <h2>Gestão de Recursos</h2>
+    <h2>Lista de Recursos</h2>
     <a routerLink="/recursos/novo" class="btn btn-success">
       Adicionar Recurso
     </a>
   </div>
 
   @if (loading()) {
-    <div class="alert alert-info">A carregar recursos do servidor...</div>
-  }
-
-  @if (!loading() && recursos().length === 0) {
+    <div class="alert alert-info">A carregar recursos...</div>
+  } @else if (recursos().length === 0) {
     <div class="alert alert-danger">Nenhum recurso encontrado na base de dados.</div>
-  }
-
-  @if (!loading() && recursos().length > 0) {
+  } @else {
     <div class="custom-card">
       <div class="table-container">
         <table class="custom-table">
@@ -33,24 +29,24 @@
               <tr>
                 <td><strong>#{{ recurso.id }}</strong></td>
                 <td class="font-bold">{{ recurso.nome }}</td>
-                <td>
-                  <span class="type-tag">{{ recurso.tipo }}</span>
-                </td>
-                <td>
-                  <span class="text-muted">{{ recurso.descricao || 'Sem descrição' }}</span>
-                </td>
+                <td><span class="type-tag">{{ recurso.tipo }}</span></td>
+                <td><span class="text-muted">{{ recurso.descricao || 'Sem descrição' }}</span></td>
                 <td>
                   <span class="status-indicator {{ recurso.status ? 'status-ativo' : 'status-inativo' }}">
                     {{ recurso.status ? 'Ativo' : 'Inativo' }}
                   </span>
                 </td>
                 <td class="text-center">
-                  <a [routerLink]="['/recursos/editar', recurso.id]" class="btn btn-action btn-edit">
-                    Editar
-                  </a>
-                  <button (click)="eliminarRecurso(recurso.id)" class="btn btn-action btn-delete">
-                    Eliminar
-                  </button>
+                  @if (isAdmin()) {
+                    <a [routerLink]="['/recursos/editar', recurso.id]" class="btn btn-action btn-edit">
+                      Editar
+                    </a>
+                    <button (click)="eliminarRecurso(recurso.id)" class="btn btn-action btn-delete">
+                      Eliminar
+                    </button>
+                  } @else {
+                    <span class="text-muted italic">Sem permissão</span>
+                  }
                 </td>
               </tr>
             }

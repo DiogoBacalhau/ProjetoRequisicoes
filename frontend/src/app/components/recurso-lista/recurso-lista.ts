@@ -2,6 +2,7 @@ import { Component, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { RecursoService, Recurso } from '../../services/recurso';
+import { AuthService } from '../../services/auth';
 
 @Component({
   selector: 'app-recurso-lista',
@@ -14,7 +15,14 @@ export class RecursoLista implements OnInit {
   recursos = signal<Recurso[]>([]);
   loading = signal<boolean>(true);
 
-  constructor(private recursoService: RecursoService) {}
+  constructor(
+    private recursoService: RecursoService,
+    private authService: AuthService
+  ) {}
+
+  isAdmin(): boolean {
+    return this.authService.getRole() === 'admin';
+  }
 
   ngOnInit(): void {
     this.carregarRecursos();

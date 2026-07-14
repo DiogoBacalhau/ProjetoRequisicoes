@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { RequisicaoService, Requisicao } from '../../services/requisicao';
 import { AuthService } from '../../services/auth';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-requisicao-lista',
@@ -26,42 +27,40 @@ export class RequisicaoLista implements OnInit {
 
   carregarRequisicoes(): void {
     this.requisicaoService.getRequisicoes().subscribe({
-      next: (dados) => {
-        this.requisicoes.set(dados);
-      },
+      next: (dados) => this.requisicoes.set(dados),
       error: (err) => {
         console.error('Erro ao carregar requisições', err);
-        this.erroMensagem.set('Não foi possível carregar a lista de requisições.');
+        this.erroMensagem.set('Não foi possível carregar a lista.');
       }
     });
   }
 
   analisarEstado(id: number, novoEstado: string): void {
-    const mensagemConfirmacao = novoEstado === 'cancelada' 
-      ? 'Tem a certeza que deseja cancelar a sua requisição?' 
-      : `Tem a certeza que deseja alterar o estado desta requisição para "${novoEstado}"?`;
+    const mensagem = novoEstado === 'cancelada' 
+      ? 'Tens a certeza que queres cancelar esta requisição?' 
+      : `Tens a certeza que queres alterar para "${novoEstado}"?`;
 
-    if (confirm(mensagemConfirmacao)) {
-      
-      const acao$ = novoEstado === 'cancelada'
-        ? this.requisicaoService.cancelarRequisicao(id)
-        : this.requisicaoService.atualizarEstado(id, novoEstado);
+    if (confirm(mensagem)) {
+      let acao$: Observable<any>;
+
+      if (novoEstado === 'cancelada') {
+        acao$ = this.requisicaoService.cancelarRequisicao(id);
+      } else {
+        acao$ = this.requisicaoService.atualizarEstado(id, novoEstado);
+      }
 
       acao$.subscribe({
-        next: () => {
-          this.carregarRequisicoes();
-        },
+        next: () => this.carregarRequisicoes(),
         error: (err) => {
-          console.error('Erro ao atualizar estado', err);
-          this.erroMensagem.set('Não foi possível atualizar o estado da requisição. Tenta novamente.');
+          console.error('Erro ao processar ação', err);
+          this.erroMensagem.set(err.error?.message || 'Erro ao processar ação.');
         }
       });
     }
   }
 
   isAdmin(): boolean {
-    const role = this.authService.getRole();
-    return role === 'admin';
+    return this.authService.getRole() === 'admin';
   }
 
   getUserIdLogado(): number | null {
@@ -74,7 +73,6 @@ export class RequisicaoLista implements OnInit {
       case 'pendente': return 'bg-pendente';
       case 'aprovada': return 'bg-aprovada';
       case 'rejeitada': return 'bg-rejeitada';
-      case 'concluída':
       case 'concluida': return 'bg-concluida';
       case 'cancelada': return 'bg-cancelada';
       default: return 'bg-secondary';
