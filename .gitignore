@@ -1,1 +1,12 @@
-.env
+# Cache e dependências
+/node_modules/
+**/node_modules/
+.angular/
+frontend/angular/.angular/
+frontend/node_modules/
+/vendor/
+/.env
+/*.log
+.DS_Store
+.idea/
+.vscode/
