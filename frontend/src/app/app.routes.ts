@@ -13,7 +13,7 @@ export const routes: Routes = [
   { path: 'recursos', component: RecursoLista, canActivate: [authGuard] },
   { path: 'requisicoes/novo', component: RequisicaoForm, canActivate: [authGuard] },
   { path: 'requisicoes', component: RequisicaoLista, canActivate: [authGuard] },
-  { path: 'recursos/novo', component: RecursoForm, canActivate: [authGuard, adminGuard] },
+  { path: 'recursos/novo', component: RecursoForm, canActivate: [authGuard] },
   { path: 'recursos/editar/:id', component: RecursoForm, canActivate: [authGuard, adminGuard] },
   { path: 'registo', component: RegistoComponent, canActivate: [authGuard, adminGuard] }
 ];

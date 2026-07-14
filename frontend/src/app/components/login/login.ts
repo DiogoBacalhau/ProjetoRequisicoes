@@ -42,7 +42,6 @@ export class LoginComponent {
       },
       error: (erro) => {
         this.aCarregar.set(false);
-        console.error('Erro no login:', erro);
         if (erro.status === 422 && erro.error.errors) {
           const mensagens = Object.values(erro.error.errors).flat().join(' ');
           this.erroMensagem.set(mensagens);

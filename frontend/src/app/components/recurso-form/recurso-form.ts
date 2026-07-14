@@ -51,23 +51,30 @@ export class RecursoForm implements OnInit {
   }
 
   guardar(): void {
-    //Converte o status para número 1 ou 0 para o Laravel aceitar
+    if (!this.recurso.nome || this.recurso.nome.trim() === '') {
+      return;
+    }
+
     const dadosParaSubmeter: Recurso = {
       ...this.recurso,
       status: this.recurso.status ? 1 : 0
     };
 
     if (this.isEdicao && this.idRecurso) {
-      //Edição de recurso
       this.recursoService.updateRecurso(this.idRecurso, dadosParaSubmeter).subscribe({
         next: () => this.router.navigate(['/recursos']),
-        error: (erro) => console.error('Erro ao atualizar recurso:', erro)
+        error: (erro) => {
+          console.error('Erro ao atualizar recurso:', erro);
+          alert('Erro ao atualizar. Verifique os dados.');
+        }
       });
     } else {
-      //Criação de recurso
       this.recursoService.createRecurso(dadosParaSubmeter).subscribe({
         next: () => this.router.navigate(['/recursos']),
-        error: (erro) => console.error('Erro ao criar recurso:', erro)
+        error: (erro) => {
+          console.error('Erro ao criar recurso:', erro);
+          alert('Erro ao criar recurso. Tente novamente.');
+        }
       });
     }
   }

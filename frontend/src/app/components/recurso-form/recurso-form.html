@@ -1,53 +1,61 @@
 <div style="padding: 20px; font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-    <h2>{{ isEdicao ? 'Editar Recurso' : 'Adicionar Novo Recurso' }}</h2>
-    <hr style="margin-bottom: 20px; border: 0; border-top: 1px solid #dee2e6;">
-  
-    <form (ngSubmit)="guardar()" #recursoForm="ngForm">
-      
-      <div style="margin-bottom: 15px;">
-        <label style="display: block; font-weight: bold; margin-bottom: 5px;">Nome do Recurso *</label>
-        <input type="text" name="nome" [(ngModel)]="recurso.nome" required
-               style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+  <h2>{{ isEdicao ? 'Editar Recurso' : 'Adicionar Novo Recurso' }}</h2>
+  <hr style="margin-bottom: 20px; border: 0; border-top: 1px solid #dee2e6;">
+
+  <form (ngSubmit)="guardar()" #recursoForm="ngForm">
+
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; font-weight: bold; margin-bottom: 5px;">Nome do Recurso *</label>
+
+      <input type="text" name="nome" [(ngModel)]="recurso.nome" required #nome="ngModel"
+        [style.borderColor]="nome.invalid && (nome.dirty || nome.touched) ? 'red' : '#ccc'"
+        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+
+      <div *ngIf="nome.invalid && (nome.dirty || nome.touched || recursoForm.submitted)"
+        style="color: red; font-size: 0.8rem; margin-top: 5px;">
+        O nome do recurso é obrigatório.
       </div>
-  
-      <div style="margin-bottom: 15px;">
-        <label style="display: block; font-weight: bold; margin-bottom: 5px;">Tipo de Recurso</label>
-        <select name="tipo" [(ngModel)]="recurso.tipo"
-                style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; text-transform: capitalize;">
-          <option value="espaco">Espaço</option>
-          <option value="equipamentos">Equipamentos</option>
-          <option value="viaturas">Viaturas</option>
-          <option value="outros ativos organizacionais">Outros Ativos Organizacionais</option>
-        </select>
-      </div>
-  
-      <div style="margin-bottom: 15px;">
-        <label style="display: block; font-weight: bold; margin-bottom: 5px;">Descrição</label>
-        <textarea name="descricao" [(ngModel)]="recurso.descricao" rows="4"
-                  style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"></textarea>
-      </div>
-  
-      <div style="margin-bottom: 20px; display: flex; align-items: center;">
-        <input type="checkbox" id="status" name="status" [(ngModel)]="recurso.status" style="margin-right: 10px; width: 18px; height: 18px; cursor: pointer;">
-        <label for="status" style="font-weight: bold; cursor: pointer;">Este recurso está ativo para requisições?</label>
-      </div>
-  
-      <div style="display: flex; gap: 10px;">
-        <button type="submit" [disabled]="!recursoForm.form.valid"
-                style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer;">
-          {{ isEdicao ? 'Atualizar' : 'Gravar' }}
-        </button>
-        
-        <a routerLink="/recursos" 
-           style="background-color: #6c757d; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: bold; text-align: center;">
-          Cancelar
-        </a>
-      </div>
-      <div style="border-top: 1px solid #dee2e6; padding-top: 15px;">
-        <p style="font-size: 0.9rem; color: #333; margin: 0;">
-          <strong>Nota: Caso haja enganos durante a criação ou edição do recurso entre em contacte o administrador 
-            para se corrigir.</strong>
-        </p>
-      </div>  
-    </form>
-  </div>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; font-weight: bold; margin-bottom: 5px;">Tipo de Recurso</label>
+      <select name="tipo" [(ngModel)]="recurso.tipo"
+        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; text-transform: capitalize;">
+        <option value="espaco">Espaço</option>
+        <option value="equipamentos">Equipamentos</option>
+        <option value="viaturas">Viaturas</option>
+        <option value="outros ativos organizacionais">Outros Ativos Organizacionais</option>
+      </select>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+      <label style="display: block; font-weight: bold; margin-bottom: 5px;">Descrição</label>
+      <textarea name="descricao" [(ngModel)]="recurso.descricao" rows="4"
+        style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;"></textarea>
+    </div>
+
+    <div style="margin-bottom: 20px; display: flex; align-items: center;">
+      <input type="checkbox" id="status" name="status" [(ngModel)]="recurso.status"
+        style="margin-right: 10px; width: 18px; height: 18px; cursor: pointer;">
+      <label for="status" style="font-weight: bold; cursor: pointer;">Este recurso está ativo para requisições?</label>
+    </div>
+
+    <div style="display: flex; gap: 10px;">
+      <button type="submit" style="background-color: #007bff; color: white; padding: 10px 20px; border: none; border-radius: 4px;
+       font-weight: bold; cursor: pointer;">
+        {{ isEdicao ? 'Atualizar' : 'Gravar' }}
+      </button>
+
+      <a routerLink="/recursos"
+        style="background-color: #6c757d; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: bold; text-align: center;">
+        Cancelar
+      </a>
+    </div>
+
+    <div style="border-top: 1px solid #dee2e6; padding-top: 15px; margin-top: 15px;">
+      <p style="font-size: 0.9rem; color: #333; margin: 0;">
+        <strong>Nota: Caso haja enganos durante a criação ou edição do recurso, contacte o administrador.</strong>
+      </p>
+    </div>
+  </form>
+</div>

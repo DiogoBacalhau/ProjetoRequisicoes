@@ -22,6 +22,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/recursos', [GestaoRecursosController::class, 'index']);
     Route::get('/recursos/{id}', [GestaoRecursosController::class, 'show']);
 
+    //POST Recursos -> utilizadores autenticados
+    Route::post('/recursos', [GestaoRecursosController::class, 'store']);
+
     //CRUD Requisições -> utilizadores autenticados
     Route::get('/requisicoes', [GestaoRequisicaoController::class, 'index']);
     Route::post('/requisicoes', [GestaoRequisicaoController::class, 'store']);
@@ -35,7 +38,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::post('/register', [AuthController::class, 'register']);
         
-        Route::post('/recursos', [GestaoRecursosController::class, 'store']);
         Route::patch('/recursos/{id}', [GestaoRecursosController::class, 'update']);
         Route::put('/recursos/{id}', [GestaoRecursosController::class, 'update']);
         Route::delete('/recursos/{id}', [GestaoRecursosController::class, 'destroy']);
