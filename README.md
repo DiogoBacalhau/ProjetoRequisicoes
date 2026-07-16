@@ -12,7 +12,33 @@ Módulo de gestão de requisições internas de recursos como viaturas, espaços
 ### 1. Necessário:
 **Docker** e o **Git**
 
-### 2. Ligar o Docker:
-Clonar o repositório -> raiz do projeto -> terminal -> correr o seguinte código:
+### 2. Clonar o repositório:
 ```bash
-sudo docker compose up -d
+git clone [https://github.com/DiogoBacalhau/ProjetoRequisicoes](https://github.com/DiogoBacalhau/ProjetoRequisicoes)
+cd ProjetoRequisicoes
+```
+
+### 3. Variáveis de ambiente
+```bash
+cp backend/.env.example backend/.env
+```
+
+### 4. Iniciar os containers
+```bash
+docker compose up -d --build
+```
+
+### 5. Executar as migrations e o seeder
+```bash
+sudo docker compose exec backend-app php artisan migrate:fresh --seed
+```
+
+### 6. Gerar a chave da aplicação
+```bash
+sudo docker compose exec backend-app php artisan key:generate
+```
+
+### 7. Abrir a aplicação
+```bash
+http://localhost:4200
+```
