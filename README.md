@@ -14,7 +14,7 @@ Módulo de gestão de requisições internas de recursos como viaturas, espaços
 
 ### 2. Clonar o repositório:
 ```bash
-git clone [https://github.com/DiogoBacalhau/ProjetoRequisicoes](https://github.com/DiogoBacalhau/ProjetoRequisicoes)
+git clone https://github.com/DiogoBacalhau/ProjetoRequisicoes
 cd ProjetoRequisicoes
 ```
 
