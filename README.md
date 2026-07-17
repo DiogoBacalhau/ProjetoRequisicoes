@@ -25,7 +25,7 @@ cp backend/.env.example backend/.env
 
 ### 4. Iniciar os containers
 ```bash
-docker compose up -d --build
+sudo docker compose up -d --build
 ```
 
 ### 5. Executar as migrations e o seeder
